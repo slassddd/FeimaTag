@@ -2,6 +2,7 @@ clear,clc
 %% 参数设置
 nLevel = 3;
 scale = 0.9; % 中心区域替换缩小比例
+apriltag_imags_folder = 'apriltag-imgs-master';
 % level 1 最大
 level(1).tagFamily = 'tagCustom48h12'; % Tag类
 level(1).tagNameHead = 'tag48_12_%05d.png'; % tag图片文件名
@@ -43,7 +44,7 @@ if ~exist(saveFloder,'dir')
     mkdir(saveFloder)
 end
 % 生成level(1)的高清tag
-level(1).pathfolder = ['apriltag-imgs-master','\',...
+level(1).pathfolder = [apriltag_imags_folder,'\',...
     level(1).tagFamily, '\'];
 level(1).thisTagName = sprintf(level(1).tagNameHead,level(1).tagNumbers);
 fprintf('正在处理 %s\n',level(1).thisTagName);
@@ -53,7 +54,7 @@ level(1).im_gray_high = kron(level(1).im_gray,ones(level(1).k,'uint8'));
 
 % 生成level(2)的高清tag
 if nLevel >= 2
-    level(2).pathfolder = ['apriltag-imgs-master','\',...
+    level(2).pathfolder = [apriltag_imags_folder,'\',...
         level(2).tagFamily, '\'];
     level(2).thisTagName = sprintf(level(2).tagNameHead,level(2).tagNumbers);
     fprintf('正在处理 %s\n',level(2).thisTagName);
@@ -64,7 +65,7 @@ if nLevel >= 2
 end
 % 生成level(3)的高清tag
 if nLevel >= 3
-    level(3).pathfolder = ['apriltag-imgs-master','\',...
+    level(3).pathfolder = [apriltag_imags_folder,'\',...
         level(3).tagFamily, '\'];
     level(3).thisTagName = sprintf(level(3).tagNameHead,level(3).tagNumbers);
     fprintf('正在处理 %s\n',level(3).thisTagName);
@@ -80,12 +81,13 @@ colSubStart(1) = 0;
 rowWhiteStart(1) = 0;
 colWhiteStart(1) = 0;
 for i_level = 2:nLevel
+    % 中心区域white化
     if setCenterWhite
-        rowWhiteStart(i_level-1) = rowSubStart(i_level-1) + 4*level(i_level-1).k + 1;
-        colWhiteStart(i_level-1) = colSubStart(i_level-1) + 4*level(i_level-1).k + 1;
+        rowWhiteStart(i_level-1) = rowSubStart(i_level-1) + 4*level(i_level-1).k;
+        colWhiteStart(i_level-1) = colSubStart(i_level-1) + 4*level(i_level-1).k;
         len = 2*level(i_level-1).k;
-        baseIm(rowWhiteStart(i_level-1):rowWhiteStart(i_level-1)+len-1,colWhiteStart(i_level-1):colWhiteStart(i_level-1)+len-1)...
-            = 255*ones(size(baseIm(rowWhiteStart(i_level-1):rowWhiteStart(i_level-1)+len-1,colWhiteStart(i_level-1):colWhiteStart(i_level-1)+len-1)));
+        baseIm(rowWhiteStart(i_level-1):rowWhiteStart(i_level-1)+len,colWhiteStart(i_level-1):colWhiteStart(i_level-1)+len)...
+            = 255*ones(size(baseIm(rowWhiteStart(i_level-1):rowWhiteStart(i_level-1)+len,colWhiteStart(i_level-1):colWhiteStart(i_level-1)+len)));
     end
     % 替换中心区域
     rowSubStart(i_level) = rowSubStart(i_level-1) + 4*level(i_level-1).k + (1-scale)*level(i_level-1).k + 1;
@@ -106,7 +108,10 @@ end
 subplot(224)
 imshow(baseIm);
 xlabel('层叠tag')
-
+figure;
+imshow(baseIm);
+xlabel('层叠tag')
+%
 fprintf('高清tag图片保存在目录：%s\n',saveFloder)
 for i = 1:nLevel
     imwrite(level(i).im_gray_high,[saveFloder,'\high_',level(i).thisTagName]);

@@ -3,8 +3,10 @@ clear,clc
 nLevel = 1;
 % level 1 最大
 idx_level = 1;
-level(idx_level).tagFamily = 'tagCustom48h12'; % Tag类
-level(idx_level).tagNameHead = 'tag48_12_%05d.png'; % tag图片文件名
+level(idx_level).tagFamily = 'tag36h11'; % Tag类
+level(idx_level).tagNameHead = 'tag36_11_%05d.png'; % tag图片文件名
+% level(idx_level).tagFamily = 'tagCustom48h12'; % Tag类
+% level(idx_level).tagNameHead = 'tag48_12_%05d.png'; % tag图片文件名
 level(idx_level).tagNumbers = [0,112,412]; % tag编号
 level(idx_level).k = 50; % 像素复制个数
 level(idx_level).nTagPixel = 10; % tag的像素长度
