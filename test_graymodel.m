@@ -1,6 +1,7 @@
 clear,clc
 %% 数据生成
 runmode = 'true'; % simple true
+fprintf('运行模式: %s\n',runmode);
 switch runmode
     case 'simple'
         %% 模型
@@ -36,7 +37,9 @@ if ~exist('nK','var')
 end
 A = zeros(nK,nK);
 b = zeros(nK,1);
-for ix = 1:length(x)
+% patterns.x = {[1 length(x)],...
+%               };
+for ix = length(x)
     for iy = 1:length(y)
         %         % 生成数据
         %         gray(ix,iy) = abs(model(x(ix),y(iy),k,state));
