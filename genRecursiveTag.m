@@ -4,25 +4,28 @@ nLevel = 3;
 scale = 0.9; % 中心区域替换缩小比例
 apriltag_imags_folder = 'apriltag-imgs-master';
 % level 1 最大
-level(1).tagFamily = 'tagCustom48h12'; % Tag类
-level(1).tagNameHead = 'tag48_12_%05d.png'; % tag图片文件名
-level(1).tagNumbers = [0]; % tag编号
-level(1).nTagPixel = 10; % tag的像素长度
-level(1).k = 500; % 像素复制个数
+idxLevel = 1;
+level(idxLevel).tagFamily = 'tagCustom48h12'; % Tag类
+level(idxLevel).tagNameHead = 'tag48_12_%05d.png'; % tag图片文件名
+level(idxLevel).tagNumbers = [223]; % tag编号
+level(idxLevel).nTagPixel = 10; % tag的像素长度
+level(idxLevel).k = 500; % 像素复制个数
 % level 2
-level(2).tagFamily = 'tagCustom48h12'; % Tag类
-level(2).tagNameHead = 'tag48_12_%05d.png'; % tag图片文件名
-% level(2).tagFamily = 'tag36h11'; % Tag类
-% level(2).tagNameHead = 'tag36_11_%05d.png'; % tag图片文件名
-level(2).tagNumbers = [2]; % tag编号
-level(2).nTagPixel = 10; % tag的像素长度
-level(2).k = floor(min(500,scale*2*level(1).k/level(1).nTagPixel)); % 像素复制个数
+idxLevel = 2;
+level(idxLevel).tagFamily = 'tagCustom48h12'; % Tag类
+level(idxLevel).tagNameHead = 'tag48_12_%05d.png'; % tag图片文件名
+% level(idxLevel).tagFamily = 'tag36h11'; % Tag类
+% level(idxLevel).tagNameHead = 'tag36_11_%05d.png'; % tag图片文件名
+level(idxLevel).tagNumbers = [224]; % tag编号
+level(idxLevel).nTagPixel = 10; % tag的像素长度
+level(idxLevel).k = floor(min(500,scale*2*level(idxLevel-1).k/level(idxLevel-1).nTagPixel)); % 像素复制个数
 % level 3
-level(3).tagFamily = 'tagCustom48h12'; % Tag类
-level(3).tagNameHead = 'tag48_12_%05d.png'; % tag图片文件名
-level(3).tagNumbers = [4]; % tag编号
-level(3).nTagPixel = 10; % tag的像素长度
-level(3).k = floor(min(500,scale*2*level(2).k/level(2).nTagPixel)); % 像素复制个数
+idxLevel = 3;
+level(idxLevel).tagFamily = 'tag36h11'; % Tag类
+level(idxLevel).tagNameHead = 'tag36_11_%05d.png'; % tag图片文件名
+level(idxLevel).tagNumbers = [225]; % tag编号
+level(idxLevel).nTagPixel = 10; % tag的像素长度
+level(idxLevel).k = floor(min(500,scale*2*level(idxLevel-1).k/level(idxLevel-1).nTagPixel)); % 像素复制个数
 %%
 % 设置结果保存目录
 setCenterWhite = true;
@@ -33,7 +36,7 @@ switch nLevel
         strFolderName = [strFolderName level(1).tagFamily,'_'];
     case 2
         strFolderName = [strFolderName level(1).tagFamily,'_',...
-            level(1).tagFamily,'_'];
+            level(2).tagFamily,'_'];
     case 3
         strFolderName = [strFolderName level(1).tagFamily,'_',...
             level(2).tagFamily,'_',...
